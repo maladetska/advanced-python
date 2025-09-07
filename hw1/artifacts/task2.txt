@@ -1,0 +1,180 @@
+maladetska@172 tail % seq 1 15 > file2.txt
+maladetska@172 tail % seq 1 25 > file3.txt
+maladetska@172 tail % cat file1.txt
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+maladetska@172 tail % wc -l file2.txt file3.txt
+      15 file2.txt
+      25 file3.txt
+      40 total
+maladetska@172 tail % python3 tail.py file1.txt
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+maladetska@172 tail % python3 tail.py file2.txt 
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+maladetska@172 tail % python3 tail.py file1.txt file2.txt file3.txt 
+==> file1.txt <==
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+
+==> file2.txt <==
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+
+==> file3.txt <==
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+maladetska@172 tail % seq 1 20 | python3 tail.py       
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+maladetska@172 tail % seq 1 5 | python3 tail.py       
+1
+2
+3
+4
+5
+maladetska@172 tail % python3 tail.py nonexistent.txt file1.txt 
+==> nonexistent.txt <==
+File 'nonexistent.txt' cannot be opened: there is no such file or directory
+
+==> file1.txt <==
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+maladetska@172 tail % tail file2.txt
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+maladetska@172 tail % python3 tail.py file2.txt
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+maladetska@172 tail % tail file1.txt file2.txt
+==> file1.txt <==
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+
+==> file2.txt <==
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+maladetska@172 tail % python3 tail.py file1.txt file2.txt
+==> file1.txt <==
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+
+==> file2.txt <==
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+maladetska@172 tail % echo "" | python3 tail.py
+maladetska@172 tail % printf "" | python3 tail.py       

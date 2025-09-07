@@ -1,0 +1,80 @@
+maladetska@10 hw1 % cat nl_testfile.txt 
+First
+Second
+Third
+F o u r t h
+
+Sixth
+
+
+Nineth
+maladetska@10 hw1 % python3 nl.py nl_testfile.txt 
+     1  First
+     2  Second
+     3  Third
+     4  F o u r t h
+     5
+     6  Sixth
+     7
+     8
+     9  Nineth
+maladetska@10 hw1 % python3 nl.py < nl_testfile.txt
+     1  First
+     2  Second
+     3  Third
+     4  F o u r t h
+     5
+     6  Sixth
+     7
+     8
+     9  Nineth
+maladetska@10 hw1 % python3 nl.py    
+раз
+     1  раз
+два 
+     2  два 
+   три три     три
+     3     три три     три
+maladetska@10 hw1 % echo -e "Line 1\nLine 2\nLine 3\n\n\nLine___ . " | python3 nl.py
+     1  Line 1
+     2  Line 2
+     3  Line 3
+     4
+     5
+     6  Line___ . 
+maladetska@10 hw1 % python3 nl.py nonexistentfile    
+Error: file 'nonexistentfile' not found
+maladetska@10 hw1 % nl -b a nl_testfile.txt 
+     1  First
+     2  Second
+     3  Third
+     4  F o u r t h
+     5
+     6  Sixth
+     7
+     8
+     9  Nineth
+maladetska@10 hw1 % python3 nl.py nl_testfile.txt 
+     1  First
+     2  Second
+     3  Third
+     4  F o u r t h
+     5
+     6  Sixth
+     7
+     8
+     9  Nineth
+maladetska@10 hw1 % seq 1 10 | python3 nl.py       
+     1  1
+     2  2
+     3  3
+     4  4
+     5  5
+     6  6
+     7  7
+     8  8
+     9  9
+    10  10
+maladetska@10 hw1 % python3 nl.py nl_test_empty.txt
+     1
+     2

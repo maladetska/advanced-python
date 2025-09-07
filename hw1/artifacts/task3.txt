@@ -1,0 +1,65 @@
+maladetska@172 hw1 % cd ./wc
+maladetska@172 wc % echo -e "Hello world\nThis is a test\nGoodbye" > file1.txt
+maladetska@172 wc % seq 1 5 > file2.txt
+maladetska@172 wc % echo -e "\n\n\n" > file3.txt
+maladetska@172 wc % touch empty.txt
+maladetska@172 wc % cat file1.txt
+Hello world
+This is a test
+Goodbye
+maladetska@172 wc % cat file2.txt
+1
+2
+3
+4
+5
+maladetska@172 wc % cat file3.txt 
+
+
+
+
+maladetska@172 wc % python3 wc.py file1.txt 
+       3       7      35 file1.txt
+maladetska@172 wc % python3 wc.py file1.txt file2.txt file3.txt 
+       3       7      35 file1.txt
+       5       5      10 file2.txt
+       4       0       4 file3.txt
+      12      12      49 total
+maladetska@172 wc % python3 wc.py empty.txt 
+       0       0       0 empty.txt
+maladetska@172 wc % echo -e "Hello\nWorld" | python3 wc.py       
+       2       2      12
+maladetska@172 wc % echo -e "Line 1\nLine 2\nLine 3" | python3 wc.py       
+       3       6      21
+maladetska@172 wc % python3 wc.py nonexistent.txt file1.txt 
+nonexistent.txt: No such file or directory
+       3       7      35 file1.txt
+maladetska@172 wc % wc file1.txt file2.txt                      
+       3       7      35 file1.txt
+       5       5      10 file2.txt
+       8      12      45 total
+maladetska@172 wc % python3 wc.py file1.txt file2.txt 
+       3       7      35 file1.txt
+       5       5      10 file2.txt
+       8      12      45 total
+maladetska@172 wc % echo -e "Привет мир\nHello world" | python3 wc.py       
+       2       4      32
+maladetska@172 wc % echo -e "Привет мир\nHello world" > unicode.txt
+maladetska@172 wc % python3 wc.py unicode.txt 
+       2       4      32 unicode.txt
+maladetska@172 wc % wc unicode.txt 
+       2       4      32 unicode.txt
+maladetska@172 wc % python3 wc.py empty.txt file3.txt 
+       0       0       0 empty.txt
+       4       0       4 file3.txt
+       4       0       4 total
+maladetska@172 wc % wc empty.txt file3.txt 
+       0       0       0 empty.txt
+       4       0       4 file3.txt
+       4       0       4 total
+maladetska@172 wc % seq 1 1000 > large.txt
+maladetska@172 wc % python3 wc.py large.txt 
+    1000    1000    3893 large.txt
+maladetska@172 wc % wc large.txt
+    1000    1000    3893 large.txt
+maladetska@172 wc % 
