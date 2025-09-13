@@ -7,6 +7,14 @@ class LatexTableGenerator:
             self.label = label
             self.alignment = alignment
 
+    class Image:
+        def __init__(self, image_path, caption=None, label=None, width=None, height=None):
+            self.image_path = image_path
+            self.caption = caption
+            self.label = label
+            self.width = width
+            self.height = height
+
     def __init__(self,
                 title="LaTeX table example",
                 author="Table generator",
@@ -24,12 +32,19 @@ class LatexTableGenerator:
             "\\usepackage{multirow}"
         ]
         self._tables = []
+        self._images = []
 
     def create_table(self, data, caption=None, label=None, alignment=None):
         """
         Creates a new Table object.
         """
         return self.Table(data, caption, label, alignment)
+
+    def create_image(self, path, caption=None, label=None, width="1.0\\textwidth", height=None):
+        """
+        Creates a new Image object.
+        """
+        return self.Image(path, caption, label, width, height)
 
     def add_table(self, table):
         """
@@ -40,18 +55,40 @@ class LatexTableGenerator:
         self._tables.append(table)
         return len(self._tables) - 1
 
+    def add_image(self, image):
+        """
+        Adds the Image object to the list.
+        """
+        if not isinstance(image, self.Image):
+            raise ValueError("The image must be an Image object.")
+        self._images.append(image)
+        return len(self._images) - 1
+
     def add_table_from_data(self, data, caption=None, label=None, alignment=None):
         """
         Creates and adds a table from the data.
         """
         table = self.Table(data, caption, label, alignment)
         return self.add_table(table)
+    
+    def add_image_from_path(self, image_path, caption=None, label=None, width=None, height=None):
+        """
+        Creates and adds an image from the path.
+        """
+        image = self.Image(image_path, caption, label, width, height)
+        return self.add_image(image)
 
     def clear_tables(self):
         """
         Clean the table list.
         """
         self._tables.clear()
+
+    def clear_images(self):
+        """
+        Clean the image list.
+        """
+        self._images.clear()
 
     def add_package(self, package):
         """
@@ -122,12 +159,52 @@ class LatexTableGenerator:
         
         return "\n".join(latex_lines)
 
+    def generate_image_content(self, image):
+        """
+        Generates LaTeX code for an image.
+        """
+        if not isinstance(image, self.Image):
+            raise ValueError("The Image object is expected.")
+        
+        latex_lines = [
+            "\\begin{figure}[htbp]",
+            "\\centering"
+        ]
+        image_command = f"\\includegraphics"
+        options = []
+        if image.width:
+            options.append(f"width={image.width}")
+        if image.height:
+            options.append(f"height={image.height}")
+        
+        if options:
+            image_command += f"[{', '.join(options)}]"
+        
+        image_command += f"{{{image.image_path}}}"
+        latex_lines.append(image_command)
+        
+        if image.caption:
+            latex_lines.append(f"\\caption{{{self._escape_latex_special_chars(image.caption)}}}")
+        if image.label:
+            latex_lines.append(f"\\label{{{image.label}}}")
+        
+        latex_lines.append("\\end{figure}")
+        
+        return "\n".join(latex_lines)
+
     def generate_and_save_table(self, data, caption=None, label=None, alignment=None, filename=None):
         """
-        Generates and immediately saves the table to a file.
+        Generates and saves the table to a file.
         """
         table_content = self.generate_table_content(self.Table(data, caption, label, alignment))
         return self.save_to_file(table_content, filename)
+
+    def generate_and_save_image(self, image_path, caption=None, label=None, width=None, height=None, filename=None):
+        """
+        Generates and saves the image to a file.
+        """
+        image_content = self.generate_image_content(self.Image(image_path, caption, label, width, height))
+        return self.save_to_file(image_content, filename)
 
     def generate_and_save_document(self, table_content, filename=None, custom_packages=None):
         """
@@ -148,15 +225,22 @@ class LatexTableGenerator:
 
     def generate_multi_table_document(self, custom_packages=None):
         """
-        Generates and saves a document with all tables.
+        Generates and saves a document with all tables and images.
         """
-        if not self._tables:
-            raise ValueError("There are no tables for document generation.")
+        if not self._tables and not self._images:
+            raise ValueError("There are no tables or images for document generation.")
         
         packages_to_use = custom_packages if custom_packages is not None else self._packages
         packages_str = "\n".join(packages_to_use)
 
         tables_content = "\n\n".join(self.generate_table_content(table) for table in self._tables)
+        images_content = "\n\n".join(self.generate_image_content(image) for image in self._images)
+        
+        content = ""
+        if tables_content:
+            content += tables_content + "\n\n"
+        if images_content:
+            content += images_content
         
         return f"""\\documentclass{{article}}
 {packages_str}
@@ -169,13 +253,13 @@ class LatexTableGenerator:
 
 \\maketitle
 
-{tables_content}
+{content}
 
 \\end{{document}}"""
 
     def generate_and_save_multi_table(self, filename=None, custom_packages=None):
         """
-        Generates and saves a document with all tables.
+        Generates and saves a document with all tables and images .
         """
         document_content = self.generate_multi_table_document(custom_packages)
         return self.save_to_file(document_content, filename)
@@ -196,6 +280,8 @@ class LatexTableGenerator:
             '_': r'\_',
             '{': r'\{',
             '}': r'\}',
+            '~': r'\textasciitilde{}',
+            '^': r'\textasciicircum{}',
         }
         
         for char, replacement in replacements.items():

@@ -36,6 +36,14 @@ def main():
     generator.add_table(table1)
     generator.add_table(table2)
 
+    image = generator.create_image(
+        path="image.jpg",
+        caption="Осень",
+        label="fig:example"
+    )
+
+    generator.add_image(image)
+
     saved_file = generator.generate_and_save_multi_table()
     print(f"LaTeX file generated in {saved_file}")
 
