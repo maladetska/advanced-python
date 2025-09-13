@@ -53,23 +53,6 @@ class LatexTableGenerator:
         """
         self._tables.clear()
 
-    def remove_table(self, index):
-        """
-        Remove the table by index.
-        """
-        if 0 <= index < len(self._tables):
-            self._tables.pop(index)
-            return True
-        return False
-
-    def get_table(self, index):
-        """
-        Get the table by index.
-        """
-        if 0 <= index < len(self._tables):
-            return self._tables[index]
-        raise IndexError("The index is out of range.")
-
     def add_package(self, package):
         """
         Add the package to the list.
@@ -78,13 +61,6 @@ class LatexTableGenerator:
             raise ValueError("The package must be a string.")
         if package not in self._packages:
             self._packages.append(package)
-
-    def remove_package(self, package):
-        """
-        Remove a package from the list.
-        """
-        if package in self._packages:
-            self._packages.remove(package)
 
     def save_to_file(self, content, filename=None, encoding='utf-8'):
         """
