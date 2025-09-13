@@ -2,9 +2,6 @@ class LatexTableGenerator:
 
     class Table:
         def __init__(self, data, caption=None, label=None, alignment=None):
-            """
-            Initialization of the table.
-            """
             self.data = data
             self.caption = caption
             self.label = label
@@ -15,16 +12,6 @@ class LatexTableGenerator:
                 author="Table generator",
                 filename="result_file.tex",
                 alignment=None):
-        """
-        Initialize a LaTeX table generator instance.
-        
-        Args:
-            title (str): Document title. Defaults to "LaTeX table example".
-            author (str): Document author. Defaults to "Table generator".
-            filename (str): Output filename (automatically appends .tex if missing).
-            alignment (str, optional): Column alignment specification using LaTeX syntax
-                (e.g., 'lcr' for left-center-right). Defaults to None.
-        """
         self._title = title
         self._author = author
         self._filename = filename if filename.endswith('.tex') else filename + '.tex'
