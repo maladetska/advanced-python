@@ -1,24 +1,34 @@
-from lib.latex_generator import LatexTableGenerator
 import sys
+from lib.latex_generator import (
+    generate_table_content,
+    generate_image_content,
+    generate_document,
+    save_to_file
+)
 
 def main():
-    generator = LatexTableGenerator(
-        title="Таблицы",
-        author="Мария Окорочкова",
-        filename=sys.argv[1] if len(sys.argv) > 1 else "artifacts/generated_table.tex")
+    title = "Таблицы и изображения"
+    author = "Мария Окорочкова"
+    filename = sys.argv[1] if len(sys.argv) > 1 else "artifacts/generated_document.tex"
 
-    generator.add_package("\\usepackage{graphicx}")
-    generator.add_package("\\usepackage{amsmath}")
-    generator.add_package("\\usepackage[russian]{{babel}}")
+    packages = [
+        "\\usepackage[utf8]{inputenc}",
+        "\\usepackage[T2A]{fontenc}",
+        "\\usepackage[russian]{babel}",
+        "\\usepackage{array}",
+        "\\usepackage{multirow}",
+        "\\usepackage{graphicx}",
+        "\\usepackage{amsmath}"
+    ]
 
-    table1 = generator.create_table(
+    table1 = generate_table_content(
         data=[["Продукт", "Цена"], ["Яблоки", "100"], ["Помидоры", "150"]],
         caption="Таблица продуктов",
         label="tab:products",
         alignment="l r"
     )
 
-    table2 = generator.create_table(
+    table2 = generate_table_content(
         data=[
             ["Тип данных", "Пример", "Описание"],
             ["Строка", "Hello & World", "Текст с амперсандом"],
@@ -32,19 +42,15 @@ def main():
         label="tab:complex_data",
         alignment="l l p{6cm}"
     )
-
-    generator.add_table(table1)
-    generator.add_table(table2)
-
-    image = generator.create_image(
-        path="image.jpg",
+    image = generate_image_content(
+        image_path="image.png",
         caption="Осень",
         label="fig:example"
     )
 
-    generator.add_image(image)
-
-    saved_file = generator.generate_and_save_multi_table()
+    all_content = table1 + "\n\n" + table2 + "\n\n" + image
+    latex_document = generate_document(title, author, all_content, packages)
+    saved_file = save_to_file(latex_document, filename)
     print(f"LaTeX file generated in {saved_file}")
 
 if __name__ == "__main__":
