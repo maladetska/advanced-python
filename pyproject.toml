@@ -9,7 +9,11 @@ authors = [
     {name = "Maria Okorochkova", email = "m@okorochkova.ru"}
 ]
 requires-python = ">=3.7"
-dependencies = []
+dependencies = [
+    "pip",
+    "setuptools",
+    "wheel"
+]
 
 [project.urls]
 Homepage = "https://github.com/maladetska/advanced-python"
