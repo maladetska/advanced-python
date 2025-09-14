@@ -1,0 +1,14 @@
+ССЫЛКА: https://pypi.org/project/latexgenlib/0.1.1/
+
+
+% pip3 show latexgenlib
+Name: latexgenlib
+Version: 0.1.1
+Summary: Library for generating LaTeX tables and images.
+Home-page: 
+Author: 
+Author-email: Maria Okorochkova <okorochkova26@gmail.com>
+License: MIT
+Location: /Users/maladetska/advanced-python/hw2/venv/lib/python3.13/site-packages
+Requires: 
+Required-by: 

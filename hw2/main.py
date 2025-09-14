@@ -1,10 +1,5 @@
 import sys
-from lib.latex_generator import (
-    generate_table_content,
-    generate_image_content,
-    generate_document,
-    save_to_file
-)
+import latexgenlib.latex_generator as lg
 
 def main():
     title = "Таблицы и изображения"
@@ -21,14 +16,14 @@ def main():
         "\\usepackage{amsmath}"
     ]
 
-    table1 = generate_table_content(
+    table1 = lg.generate_table_content(
         data=[["Продукт", "Цена"], ["Яблоки", "100"], ["Помидоры", "150"]],
         caption="Таблица продуктов",
         label="tab:products",
         alignment="l r"
     )
 
-    table2 = generate_table_content(
+    table2 = lg.generate_table_content(
         data=[
             ["Тип данных", "Пример", "Описание"],
             ["Строка", "Hello & World", "Текст с амперсандом"],
@@ -42,15 +37,15 @@ def main():
         label="tab:complex_data",
         alignment="l l p{6cm}"
     )
-    image = generate_image_content(
+    image = lg.generate_image_content(
         image_path="image.png",
         caption="Осень",
         label="fig:example"
     )
 
     all_content = table1 + "\n\n" + table2 + "\n\n" + image
-    latex_document = generate_document(title, author, all_content, packages)
-    saved_file = save_to_file(latex_document, filename)
+    latex_document = lg.generate_document(title, author, all_content, packages)
+    saved_file = lg.save_to_file(latex_document, filename)
     print(f"LaTeX file generated in {saved_file}")
 
 if __name__ == "__main__":
